@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import mylogo from "./../../../assets/unnamed.png";
-import React from 'react';
+import React from "react";
 
 function Logo() {
   return (
@@ -11,6 +11,6 @@ function Logo() {
 }
 const LogoStyled = styled.div({
   flexBasis: "18%",
-  margin:"35px"
+  margin: "35px",
 });
 export default Logo;
