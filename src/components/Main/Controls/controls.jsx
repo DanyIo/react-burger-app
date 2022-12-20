@@ -1,24 +1,85 @@
+import { Button, Stack } from "@mui/material";
 import React from "react";
 import styled from "styled-components";
-const Control = () => {
+function findOutQuantities(name, QuantitiesList) {
+  for (let element in QuantitiesList) {
+    if (element === name) {
+      return QuantitiesList[element];
+    }
+  }
+}
+const SingleControl = (name, QuantitiesList, updateBurger) => {
   return (
-    <ControlStyled>
-      <TemporaryStyledText>To be continued...</TemporaryStyledText>
-    </ControlStyled>
+    <StyledLi key={`${name}`}>
+      <Button
+        disabled={findOutQuantities(name, QuantitiesList) === 0 ? true : false}
+        size="small"
+        variant="elevated"
+        data-action="decrement"
+        onClick={updateBurger}
+        data-ingredient={name}
+      >
+        -
+      </Button>
+      {findOutQuantities(name, QuantitiesList)}
+      <Button
+        disabled={findOutQuantities(name, QuantitiesList) === 5 ? true : false}
+        size="small"
+        variant="elevated"
+        data-action="increment"
+        onClick={updateBurger}
+        data-ingredient={name}
+      >
+        +
+      </Button>
+      <ImageStyled
+        src={require(`../../../assets/ingredients/${name}.png`)}
+      ></ImageStyled>
+    </StyledLi>
   );
 };
-const ControlStyled = styled.div({
+const Controls = ({ ingredients, QuantitiesList, updateBurger }) => {
+  return (
+    <ControlsStyledDiv>
+      <ControlsStyled
+        direction="column"
+        justifyContent="center"
+        alignItems="center"
+        spacing={3}
+      >
+        <UlStyled>
+          {ingredients.map((el) =>
+            SingleControl(el, QuantitiesList, updateBurger)
+          )}
+        </UlStyled>
+      </ControlsStyled>
+    </ControlsStyledDiv>
+  );
+};
+const StyledLi = styled.li({ backgroundColor: "white", padding:"10px"});
+const UlStyled = styled.ul({
+  listStyleType: "none",
+  margin: 10,
+  padding: 5,
+});
+const ControlsStyledDiv = styled.div({
   backgroundColor: "black",
   textAlign: "center",
-  verticalAlign: "center",
   display: "table-cell",
   padding: 15,
-  margin: "15px",
-  color: "white",
+  width: "20%",
+  borderRadius: "2px",
+  boxShadow: "0 0 50px rgba(0, 0, 0, 0.1)",
 });
-const TemporaryStyledText = styled.h3({
-  transform: "rotate(90deg)",
-  transformOrigin: "top left",
-  marginLeft: "4rem",
+const ControlsStyled = styled(Stack)({
+  height: "65%",
+  flexBasis: "22%",
+  borderRadius: "15px",
+  alignSelf: "center",
+  boxShadow:
+    "rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px",
 });
-export default Control;
+const ImageStyled = styled.img({
+  width: "32px",
+});
+export default Controls;
