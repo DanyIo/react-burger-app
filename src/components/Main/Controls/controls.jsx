@@ -56,7 +56,7 @@ const Controls = ({ ingredients, QuantitiesList, updateBurger }) => {
     </ControlsStyledDiv>
   );
 };
-const StyledLi = styled.li({ backgroundColor: "white", padding:"10px"});
+const StyledLi = styled.li({ backgroundColor: "white", padding: "10px" });
 const UlStyled = styled.ul({
   listStyleType: "none",
   margin: 10,

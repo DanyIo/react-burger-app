@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React from 'react';
+import React from "react";
 
 function Title() {
   return <TitleStyled>Burger App</TitleStyled>;

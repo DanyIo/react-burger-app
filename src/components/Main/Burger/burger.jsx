@@ -70,7 +70,7 @@ const TitleStyled = styled.h3({
 });
 const TopBunStyled = styled.img({
   top: 0,
-  zIndex: "11",
+  zIndex: "100",
   width: 200,
   margin: 25,
   height: 110,
@@ -78,7 +78,7 @@ const TopBunStyled = styled.img({
 const BottomBapStyled = styled.img({
   width: 200,
   height: 100,
-  margin: 25,
+  margin: 10,
 });
 const BurgerStyledSection = styled.section({
   height: "65%",
