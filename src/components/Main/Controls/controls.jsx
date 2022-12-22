@@ -10,7 +10,7 @@ function findOutQuantities(name, QuantitiesList) {
     }
   }
 }
-const SingleControl = (name, QuantitiesList, updateBurger) => {
+const singleControl = (name, QuantitiesList, updateBurger) => {
   return (
     <StyledLi key={`${name}_li`}>
       <Button
@@ -63,7 +63,7 @@ const Controls = ({
           <>
             <UlStyled>
               {ingredients.map((el) =>
-                SingleControl(el, QuantitiesList, updateBurger)
+                 singleControl(el, QuantitiesList, updateBurger)
               )}
             </UlStyled>
             <ButtonStyled onClick={clear}> Clear </ButtonStyled>

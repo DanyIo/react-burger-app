@@ -23,17 +23,21 @@ class State extends React.Component {
       const { data } = await axios.get(
         "https://burger-api-xcwp.onrender.com/ingredients"
       );
-      const ingredients = this.state.prices.map((ingredient) => {
+      const pricelist = data.map((element) => ({
+        name: element.name,
+        price: element.price,
+      }));
+      const ingredients = pricelist.map((ingredient) => {
         return ingredient.name;
       });
-      const quantities = this.state.prices.reduce(
+      const quantities = pricelist.reduce(
         (acc, curr) => ({ [curr.name]: 0, ...acc }),
         {}
       );
       this.setState({
         ingredients: ingredients,
         burgerCreator: quantities,
-        prices: data,
+        prices: pricelist,
         loading: false,
       });
     } catch (error) {
@@ -77,11 +81,11 @@ class State extends React.Component {
     });
   };
   clearBurger = () => {
-    const emptyBurgerCreator = {};
-    for (const ingredient in this.state.burgerCreator) {
-      emptyBurgerCreator[ingredient] = 0;
-    }
     if (this.state.ingredientAddingOrder.length !== 0) {
+      const emptyBurgerCreator = {};
+      for (const ingredient in this.state.burgerCreator) {
+        emptyBurgerCreator[ingredient] = 0;
+      }
       this.setState({
         ingredientAddingOrder: [],
         burgerCreator: emptyBurgerCreator,
