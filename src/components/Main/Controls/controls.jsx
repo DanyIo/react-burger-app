@@ -1,6 +1,8 @@
 import { Button, Stack } from "@mui/material";
 import React from "react";
 import styled from "styled-components";
+import Loader from "../Loader/loader";
+
 function findOutQuantities(name, QuantitiesList) {
   for (let element in QuantitiesList) {
     if (element === name) {
@@ -10,7 +12,7 @@ function findOutQuantities(name, QuantitiesList) {
 }
 const SingleControl = (name, QuantitiesList, updateBurger) => {
   return (
-    <StyledLi key={`${name}`}>
+    <StyledLi key={`${name}_li`}>
       <Button
         disabled={findOutQuantities(name, QuantitiesList) === 0 ? true : false}
         size="small"
@@ -38,7 +40,13 @@ const SingleControl = (name, QuantitiesList, updateBurger) => {
     </StyledLi>
   );
 };
-const Controls = ({ ingredients, QuantitiesList, updateBurger }) => {
+const Controls = ({
+  ingredients,
+  QuantitiesList,
+  updateBurger,
+  loading,
+  clear,
+}) => {
   return (
     <ControlsStyledDiv>
       <ControlsStyled
@@ -47,11 +55,20 @@ const Controls = ({ ingredients, QuantitiesList, updateBurger }) => {
         alignItems="center"
         spacing={3}
       >
-        <UlStyled>
-          {ingredients.map((el) =>
-            SingleControl(el, QuantitiesList, updateBurger)
-          )}
-        </UlStyled>
+        {loading ? (
+          <CenterLoader>
+            <Loader />
+          </CenterLoader>
+        ) : (
+          <>
+            <UlStyled>
+              {ingredients.map((el) =>
+                SingleControl(el, QuantitiesList, updateBurger)
+              )}
+            </UlStyled>
+            <ButtonStyled onClick={clear}> Clear </ButtonStyled>
+          </>
+        )}
       </ControlsStyled>
     </ControlsStyledDiv>
   );
@@ -70,6 +87,7 @@ const ControlsStyledDiv = styled.div({
   width: "20%",
   borderRadius: "2px",
   boxShadow: "0 0 50px rgba(0, 0, 0, 0.1)",
+  position: "relative",
 });
 const ControlsStyled = styled(Stack)({
   height: "65%",
@@ -81,5 +99,23 @@ const ControlsStyled = styled(Stack)({
 });
 const ImageStyled = styled.img({
   width: "32px",
+});
+const CenterLoader = styled.div({
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  margin: "-25px 0 0 -25px",
+});
+const ButtonStyled = styled.button({
+  backgroundColor: "black",
+  borderRadius: "4px",
+  color: "white",
+  padding: "10px 28px",
+  textAlign: "center",
+  textDecoration: "none",
+  display: "inline-block",
+  fontSize: "16px",
+  transition: "10s",
+  cursor: "pointer",
 });
 export default Controls;

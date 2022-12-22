@@ -20,11 +20,11 @@ const Burger = ({ orderPrice, ingredientAddingOrder }) => {
         {ingredientAddingOrder.map((product, idx) => {
           return (
             <ProductIMGStyled
-              key={product + idx}
+              key={product}
               src={require(`../../../assets/products/${product}.png`)}
               alt={product}
               style={{
-                bottom: 95 + idx * 9,
+                bottom: 75 + idx * 9,
                 zIndex: idx + 5,
               }}
             ></ProductIMGStyled>
@@ -60,6 +60,7 @@ const ButtonStyled = styled.button({
   display: "inline-block",
   fontSize: "16px",
   transition: "10s",
+  cursor: "pointer",
 });
 const ProductIMGStyled = styled.img({
   width: "200px",
@@ -72,7 +73,7 @@ const TopBunStyled = styled.img({
   top: 0,
   zIndex: "100",
   width: 200,
-  margin: 25,
+  margin: 5,
   height: 110,
 });
 const BottomBapStyled = styled.img({
