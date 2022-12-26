@@ -1,4 +1,3 @@
-import Banner from "./Banner/banner";
 import styled from "styled-components";
 import React from "react";
 import axios from "axios";
@@ -104,7 +103,6 @@ class State extends React.Component {
     } = this.state;
     return (
       <MainStyled>
-        <Banner></Banner>
         <div className="Row">
           <Prices priceList={prices} loading={loading}></Prices>
           <Burger
@@ -113,7 +111,7 @@ class State extends React.Component {
           ></Burger>
           <Controls
             ingredients={ingredients}
-            QuantitiesList={burgerCreator}
+            quantitieslist={burgerCreator}
             updateBurger={this.handleChangeBurgerIngredientQuantity}
             loading={loading}
             clear={this.clearBurger}

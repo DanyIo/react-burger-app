@@ -3,18 +3,18 @@ import React from "react";
 import styled from "styled-components";
 import Loader from "../Loader/loader";
 
-function findOutQuantities(name, QuantitiesList) {
-  for (let element in QuantitiesList) {
+function findOutQuantities(name, quantitieslist) {
+  for (let element in quantitieslist) {
     if (element === name) {
-      return QuantitiesList[element];
+      return quantitieslist[element];
     }
   }
 }
-const singleControl = (name, QuantitiesList, updateBurger) => {
+const singleControl = (name, quantitieslist, updateBurger) => {
   return (
     <StyledLi key={`${name}_li`}>
       <Button
-        disabled={findOutQuantities(name, QuantitiesList) === 0 ? true : false}
+        disabled={findOutQuantities(name, quantitieslist) === 0 ? true : false}
         size="small"
         variant="elevated"
         data-action="decrement"
@@ -23,9 +23,9 @@ const singleControl = (name, QuantitiesList, updateBurger) => {
       >
         -
       </Button>
-      {findOutQuantities(name, QuantitiesList)}
+      {findOutQuantities(name, quantitieslist)}
       <Button
-        disabled={findOutQuantities(name, QuantitiesList) === 5 ? true : false}
+        disabled={findOutQuantities(name, quantitieslist) === 5 ? true : false}
         size="small"
         variant="elevated"
         data-action="increment"
@@ -42,7 +42,7 @@ const singleControl = (name, QuantitiesList, updateBurger) => {
 };
 const Controls = ({
   ingredients,
-  QuantitiesList,
+  quantitieslist,
   updateBurger,
   loading,
   clear,
@@ -63,7 +63,7 @@ const Controls = ({
           <>
             <UlStyled>
               {ingredients.map((el) =>
-                 singleControl(el, QuantitiesList, updateBurger)
+                 singleControl(el, quantitieslist, updateBurger)
               )}
             </UlStyled>
             <ButtonStyled onClick={clear}> Clear </ButtonStyled>

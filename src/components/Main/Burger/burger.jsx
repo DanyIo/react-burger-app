@@ -13,9 +13,9 @@ const Burger = ({ orderPrice, ingredientAddingOrder }) => {
         <TopBunStyled src={Bap_top}></TopBunStyled>
         <br></br>
         {!ingredientAddingOrder.length && (
-          <span>
+          <SpandStyled>
             Please, start by adding ... <br></br>
-          </span>
+          </SpandStyled>
         )}
         {ingredientAddingOrder.map((product, idx) => {
           return (
@@ -24,7 +24,7 @@ const Burger = ({ orderPrice, ingredientAddingOrder }) => {
               src={require(`../../../assets/products/${product}.png`)}
               alt={product}
               style={{
-                bottom: 75 + idx * 9,
+                bottom: 310 + idx * 9,
                 zIndex: idx + 5,
               }}
             ></ProductIMGStyled>
@@ -50,6 +50,9 @@ const BurgerStyled = styled.div({
   textAlign: "center",
   justifyContent: "center",
 });
+const SpandStyled = styled.span({
+  position:"absolute"
+})
 const ButtonStyled = styled.button({
   backgroundColor: "black",
   borderRadius: "4px",
