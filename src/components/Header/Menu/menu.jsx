@@ -23,6 +23,7 @@ const ButtonStyled = styled.button({
   textAlign: "center",
   fontSize: "17px",
   fontWeight: "bold",
+  cursor: "pointer",
 });
 
 export default Menu;
