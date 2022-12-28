@@ -13,9 +13,9 @@ const Burger = ({ orderPrice, ingredientAddingOrder }) => {
         <TopBunStyled src={Bap_top}></TopBunStyled>
         <br></br>
         {!ingredientAddingOrder.length && (
-          <SpandStyled>
+          <SpanStyled>
             Please, start by adding ... <br></br>
-          </SpandStyled>
+          </SpanStyled>
         )}
         {ingredientAddingOrder.map((product, idx) => {
           return (
@@ -50,7 +50,7 @@ const BurgerStyled = styled.div({
   textAlign: "center",
   justifyContent: "center",
 });
-const SpandStyled = styled.span({
+const SpanStyled = styled.span({
   position:"absolute"
 })
 const ButtonStyled = styled.button({
