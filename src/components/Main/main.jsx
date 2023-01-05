@@ -53,8 +53,9 @@ const Main = () => {
         return prevIngredientAddingOrder;
       });
       setBurgerCreator((prevBurgerCreator) => {
-        prevBurgerCreator[ingredientClicked]--;
-        return prevBurgerCreator;
+        const newBurgerCreator = Object.assign({}, prevBurgerCreator);
+        newBurgerCreator[ingredientClicked]--;
+        return newBurgerCreator;
       });
     }
     if (actionClicked === "increment") {
@@ -64,10 +65,11 @@ const Main = () => {
           ...prevIngredientAddingOrder,
           ingredientClicked,
         ]);
-        setBurgerCreator((prevBurgerCreator) => ({
-          ...prevBurgerCreator,
-          [ingredientClicked]: prevBurgerCreator[ingredientClicked]++,
-        }));
+        setBurgerCreator((prevBurgerCreator) => {
+          const newBurgerCreator = Object.assign({}, prevBurgerCreator);
+          newBurgerCreator[ingredientClicked]++;
+          return newBurgerCreator;
+        });
       }
     }
     setOrderPrice(newPrice.toFixed(2));
