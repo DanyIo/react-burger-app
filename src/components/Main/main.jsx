@@ -1,128 +1,117 @@
 import styled from "styled-components";
-import React from "react";
 import axios from "axios";
+import { React, useState, useEffect, useMemo } from "react";
 import Burger from "./Burger/burger";
 import Prices from "./Prices/prices";
 import Controls from "./Controls/controls";
 import "../.././index.css";
-class State extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      prices: [],
-      ingredients: [],
-      ingredientAddingOrder: [],
-      orderPrice: "1.00",
-      loading: false,
-    };
-  }
-  componentDidMount = async () => {
-    try {
-      this.setState({ loading: true });
+const Main = () => {
+  const [loading, setLoading] = useState(false);
+  const [ingredients, setIngredients] = useState([]);
+  const [burgerCreator, setBurgerCreator] = useState({});
+  const [prices, setPrices] = useState([{ name: "", price: "" }]);
+  const [ingredientAddingOrder, setIngredientAddingOrder] = useState([]);
+  const [orderPrice, setOrderPrice] = useState("1.00");
+  useEffect(() => {
+    async function getData() {
+      setLoading(true);
       const { data } = await axios.get(
         "https://burger-api-xcwp.onrender.com/ingredients"
       );
-      const pricelist = data.map((element) => ({
+      const priceList = data.map((element) => ({
         name: element.name,
         price: element.price,
       }));
-      const ingredients = pricelist.map((ingredient) => {
-        return ingredient.name;
-      });
-      const quantities = pricelist.reduce(
+      const quantities = priceList.reduce(
         (acc, curr) => ({ [curr.name]: 0, ...acc }),
         {}
       );
-      this.setState({
-        ingredients: ingredients,
-        burgerCreator: quantities,
-        prices: pricelist,
-        loading: false,
-      });
-    } catch (error) {
-      console.log(error);
+      setIngredients(
+        priceList.map((ingredient) => {
+          return ingredient.name;
+        })
+      );
+      setBurgerCreator(quantities);
+      setPrices(priceList);
+      setLoading(false);
     }
+    getData();
+  }, []);
+  const findIngredientPrice = (ingredient) => {
+    return prices.find((price) => price.name === ingredient).price;
   };
-
-  findIngredientPrice = (ingredient) => {
-    return this.state.prices.find((price) => price.name === ingredient).price;
-  };
-  handleChangeBurgerIngredientQuantity = (event) => {
+  const handleChangeBurgerIngredientQuantity = (event) => {
     const ingredientClicked = event.target.dataset["ingredient"];
     const actionClicked = event.target.dataset["action"];
-    const ingredientPrice = this.findIngredientPrice(ingredientClicked);
-    this.setState((prevState) => {
-      const copyBurgerCreator = { ...prevState.burgerCreator };
-      const copyIngredientAddingOrder = [...prevState.ingredientAddingOrder];
-      let newPrice = +prevState.orderPrice;
-      if (actionClicked === "decrement") {
-        newPrice -= +ingredientPrice;
-
-        const idx = copyIngredientAddingOrder.lastIndexOf(ingredientClicked);
-
-        copyIngredientAddingOrder.splice(idx, 1);
-
-        copyBurgerCreator[ingredientClicked]--;
-      }
-      if (actionClicked === "increment") {
-        if (copyIngredientAddingOrder.length < 10) {
-          newPrice += +ingredientPrice;
-          copyIngredientAddingOrder.push(ingredientClicked);
-          copyBurgerCreator[ingredientClicked]++;
-        }
-      }
-      return {
-        ...prevState,
-        ingredientAddingOrder: copyIngredientAddingOrder,
-        burgerCreator: copyBurgerCreator,
-        orderPrice: newPrice.toFixed(2),
-      };
-    });
-  };
-  clearBurger = () => {
-    if (this.state.ingredientAddingOrder.length !== 0) {
-      const emptyBurgerCreator = {};
-      for (const ingredient in this.state.burgerCreator) {
-        emptyBurgerCreator[ingredient] = 0;
-      }
-      this.setState({
-        ingredientAddingOrder: [],
-        burgerCreator: emptyBurgerCreator,
-        orderPrice: "1.00",
+    const ingredientPrice = findIngredientPrice(ingredientClicked);
+    let newPrice = +orderPrice;
+    if (actionClicked === "decrement") {
+      newPrice -= ingredientPrice;
+      const idx = ingredientAddingOrder.lastIndexOf(ingredientClicked);
+      setIngredientAddingOrder((prevIngredientAddingOrder) => {
+        prevIngredientAddingOrder.splice(idx, 1);
+        return prevIngredientAddingOrder;
+      });
+      setBurgerCreator((prevBurgerCreator) => {
+        const newBurgerCreator = Object.assign({}, prevBurgerCreator);
+        newBurgerCreator[ingredientClicked]--;
+        return newBurgerCreator;
       });
     }
+    if (actionClicked === "increment") {
+      if (ingredientAddingOrder.length < 10) {
+        newPrice += ingredientPrice;
+        setIngredientAddingOrder((prevIngredientAddingOrder) => [
+          ...prevIngredientAddingOrder,
+          ingredientClicked,
+        ]);
+        setBurgerCreator((prevBurgerCreator) => {
+          const newBurgerCreator = Object.assign({}, prevBurgerCreator);
+          newBurgerCreator[ingredientClicked]++;
+          return newBurgerCreator;
+        });
+      }
+    }
+    setOrderPrice(newPrice.toFixed(2));
   };
-  render() {
-    const {
-      prices,
-      ingredients,
-      orderPrice,
-      burgerCreator,
-      ingredientAddingOrder,
-      loading,
-    } = this.state;
-    return (
-      <MainStyled>
-        <div className="Row">
-          <Prices priceList={prices} loading={loading}></Prices>
-          <Burger
-            orderPrice={orderPrice}
-            ingredientAddingOrder={ingredientAddingOrder}
-          ></Burger>
-          <Controls
-            ingredients={ingredients}
-            quantitieslist={burgerCreator}
-            updateBurger={this.handleChangeBurgerIngredientQuantity}
-            loading={loading}
-            clear={this.clearBurger}
-          ></Controls>
-        </div>
-      </MainStyled>
-    );
-  }
-}
+
+  const clearBurger = () => {
+    if (ingredientAddingOrder.length !== 0) {
+      const emptyBurgerCreator = {};
+      for (let ingredient in burgerCreator) {
+        emptyBurgerCreator[ingredient] = 0;
+      }
+      setIngredientAddingOrder([]);
+      setBurgerCreator(emptyBurgerCreator);
+      setOrderPrice("1.00");
+    }
+  };
+
+  return (
+    <MainStyled>
+      <div className="Row">
+        <Prices priceList={prices} loading={loading}></Prices>
+        <Burger
+          orderPrice={orderPrice}
+          ingredientAddingOrder={ingredientAddingOrder}
+          clearBurger={clearBurger}
+        ></Burger>
+        <Controls
+          ingredients={ingredients}
+          quantitieslist={burgerCreator}
+          updateBurger={(event) => {
+            handleChangeBurgerIngredientQuantity(event);
+          }}
+          loading={loading}
+          clear={clearBurger}
+        ></Controls>
+      </div>
+    </MainStyled>
+  );
+};
 const MainStyled = styled.div({
   display: "table",
   margin: "15px",
 });
-export default State;
+
+export default Main;

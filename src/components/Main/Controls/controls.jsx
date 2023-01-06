@@ -1,8 +1,9 @@
 import { Button, Stack } from "@mui/material";
 import React from "react";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import Loader from "../Loader/loader";
-
+import { faInfo } from "@fortawesome/free-solid-svg-icons/faInfo";
+import DeleteIcon from "@mui/icons-material/Delete";
 function findOutQuantities(name, quantitieslist) {
   for (let element in quantitieslist) {
     if (element === name) {
@@ -63,10 +64,16 @@ const Controls = ({
           <>
             <UlStyled>
               {ingredients.map((el) =>
-                 singleControl(el, quantitieslist, updateBurger)
+                singleControl(el, quantitieslist, updateBurger)
               )}
             </UlStyled>
-            <ButtonStyled onClick={clear}> Clear </ButtonStyled>
+            <ButtonStyled
+              onClick={clear}
+              variant="contained"
+              startIcon={<DeleteIcon icon={faInfo} />}
+            >
+              Clear
+            </ButtonStyled>
           </>
         )}
       </ControlsStyled>
@@ -79,6 +86,13 @@ const UlStyled = styled.ul({
   margin: 10,
   padding: 5,
 });
+const ButtonStyled = styled(Button)(() => ({
+  background: "white",
+  color: "black",
+  ":hover": {
+    backgroundColor: "pink",
+  },
+}));
 const ControlsStyledDiv = styled.div({
   backgroundColor: "black",
   textAlign: "center",
@@ -103,19 +117,7 @@ const ImageStyled = styled.img({
 const CenterLoader = styled.div({
   position: "absolute",
   top: "50%",
-  left: "50%",
+  left: "45%",
   margin: "-25px 0 0 -25px",
-});
-const ButtonStyled = styled.button({
-  backgroundColor: "black",
-  borderRadius: "4px",
-  color: "white",
-  padding: "10px 28px",
-  textAlign: "center",
-  textDecoration: "none",
-  display: "inline-block",
-  fontSize: "16px",
-  transition: "10s",
-  cursor: "pointer",
 });
 export default Controls;

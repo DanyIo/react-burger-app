@@ -1,13 +1,19 @@
-import styled from "styled-components";
 import React from "react";
 import Bap_bottom from "../../../assets/bottom_bun.png";
 import Bap_top from "../../../assets/top_bun.png";
-const Burger = ({ orderPrice, ingredientAddingOrder }) => {
+import styled from "@emotion/styled";
+import BasicModal from "../BasicModal/BasicModal";
+
+const Burger = ({ orderPrice, ingredientAddingOrder, clearBurger }) => {
   return (
     <BurgerStyled>
       <TitleStyled>Burger price {orderPrice}$</TitleStyled>
       <br></br>
-      <ButtonStyled>Checkout</ButtonStyled>
+      <BasicModal
+        ingredientAddingOrder={ingredientAddingOrder}
+        orderPrice={orderPrice}
+        clearBurger={clearBurger}
+      ></BasicModal>
       <br></br>
       <BurgerStyledSection>
         <TopBunStyled src={Bap_top}></TopBunStyled>
@@ -20,11 +26,11 @@ const Burger = ({ orderPrice, ingredientAddingOrder }) => {
         {ingredientAddingOrder.map((product, idx) => {
           return (
             <ProductIMGStyled
-              key={product}
+              key={`${product}_${idx}`}
               src={require(`../../../assets/products/${product}.png`)}
               alt={product}
               style={{
-                bottom: 310 + idx * 9,
+                bottom: 325 + idx * 9,
                 zIndex: idx + 5,
               }}
             ></ProductIMGStyled>
@@ -51,20 +57,9 @@ const BurgerStyled = styled.div({
   justifyContent: "center",
 });
 const SpanStyled = styled.span({
-  position:"absolute"
-})
-const ButtonStyled = styled.button({
-  backgroundColor: "black",
-  borderRadius: "4px",
-  color: "white",
-  padding: "10px 28px",
-  textAlign: "center",
-  textDecoration: "none",
-  display: "inline-block",
-  fontSize: "16px",
-  transition: "10s",
-  cursor: "pointer",
+  position: "absolute",
 });
+
 const ProductIMGStyled = styled.img({
   width: "200px",
   position: "absolute",
