@@ -214,4 +214,5 @@ const SendButtonStyled = styled(Button)(() => ({
 const BoltIconStyled = styled(BoltIcon)(() => ({
   color: "black",
   transform: "down-4 grow-2.5",
+  position:"absolute"
 }));
