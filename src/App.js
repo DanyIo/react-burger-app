@@ -14,6 +14,7 @@ function App() {
       <Header/>
       <Routes>
         <Route path = "/" element = {<Home/>}></Route>
+        <Route path = "react-burger-app/" element = {<Home/>}></Route>
         <Route path = "/orders" element = {<Orders/>}></Route>
         <Route path = "/contact" element = {<Contact/>}></Route>
         <Route path = "/faq" element = {<FAQ/>}></Route>
