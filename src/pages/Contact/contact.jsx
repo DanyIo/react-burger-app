@@ -3,7 +3,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import Loader from "../../components/Main/Loader/loader";
 import styled from "@emotion/styled";
-//"https://burger-api-xcwp.onrender.com/contact"
+
 const Contact = () => {
   const [contacts, setContacts] = useState([]);
   const [loading, setLoading] = useState(false);
