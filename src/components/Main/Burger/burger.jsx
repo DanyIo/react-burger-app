@@ -30,7 +30,8 @@ const Burger = ({ orderPrice, ingredientAddingOrder, clearBurger }) => {
               src={require(`../../../assets/products/${product}.png`)}
               alt={product}
               style={{
-                bottom: 325 + idx * 9,
+                //bottom: 325 + idx * 9,
+                bottom: `${38 + idx}%`,
                 zIndex: idx + 5,
               }}
             ></ProductIMGStyled>
