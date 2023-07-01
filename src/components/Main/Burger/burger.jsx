@@ -24,68 +24,78 @@ const Burger = ({ orderPrice, ingredientAddingOrder, clearBurger }) => {
           </SpanStyled>
         )}
         {ingredientAddingOrder.map((product, idx) => {
+          const bottomOffset = 325 + idx * 9;
+          const zIndex = idx + 5;
+
           return (
             <ProductIMGStyled
               key={`${product}_${idx}`}
               src={require(`../../../assets/products/${product}.png`)}
               alt={product}
               style={{
-                bottom: 325 + idx * 9,
-                zIndex: idx + 5,
+                zIndex: zIndex,
+                bottom: bottomOffset,
               }}
-            ></ProductIMGStyled>
+            />
           );
         })}
+
         <BottomBapStyled src={Bap_bottom}></BottomBapStyled>
       </BurgerStyledSection>
     </BurgerStyled>
   );
 };
 
-const BurgerStyled = styled.div({
+const BurgerStyled = styled("div")({
   backgroundColor: "#fff",
   borderRadius: "2px",
   boxShadow: "0 0 50px rgba(0, 0, 0, 0.1)",
-  height: "50vh",
-  top: "69%",
-  left: "31%",
   padding: "15px",
   margin: "15px",
-  display: "table-cell",
-  width: "60%",
   textAlign: "center",
-  justifyContent: "center",
 });
-const SpanStyled = styled.span({
+
+const SpanStyled = styled("span")({
   position: "absolute",
 });
 
-const ProductIMGStyled = styled.img({
+const ProductIMGStyled = styled("img")({
   width: "200px",
+  height: "auto",
   position: "absolute",
 });
-const TitleStyled = styled.h3({
+
+const TitleStyled = styled("h3")({
   fontWeight: "bold",
 });
-const TopBunStyled = styled.img({
+
+const TopBunStyled = styled("img")({
   top: 0,
   zIndex: "100",
   width: 200,
-  margin: 5,
+  marginBottom: "5px",
   height: 110,
 });
-const BottomBapStyled = styled.img({
+
+const BottomBapStyled = styled("img")({
   width: 200,
   height: 100,
-  margin: 10,
+  marginTop: "10px",
 });
-const BurgerStyledSection = styled.section({
-  height: "65%",
+
+const BurgerStyledSection = styled("section")({
+  maxHeight: "300px",
   alignSelf: "center",
   flexBasis: "50%",
   justifyContent: "center",
-  flexDirection: "column",
   display: "flex",
+  flexDirection: "column",
+  gap: "0px",
   alignItems: "center",
+
+  "@media screen and (max-width: 1440px)": {
+    maxHeight: "165px",
+  },
 });
+
 export default Burger;
