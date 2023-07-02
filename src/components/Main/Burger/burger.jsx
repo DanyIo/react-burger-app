@@ -1,47 +1,47 @@
 import React from "react";
 import Bap_bottom from "../../../assets/bottom_bun.png";
 import Bap_top from "../../../assets/top_bun.png";
-import styled from "@emotion/styled";
+import { styled } from "@mui/system";
 import BasicModal from "../BasicModal/BasicModal";
 
 const Burger = ({ orderPrice, ingredientAddingOrder, clearBurger }) => {
   return (
     <BurgerStyled>
       <TitleStyled>Burger price {orderPrice}$</TitleStyled>
-      <br></br>
+      <br />
       <BasicModal
         ingredientAddingOrder={ingredientAddingOrder}
         orderPrice={orderPrice}
         clearBurger={clearBurger}
-      ></BasicModal>
-      <br></br>
-      <BurgerStyledSection>
-        <TopBunStyled src={Bap_top}></TopBunStyled>
-        <br></br>
+      />
+      <br />
+      <BurgerSection>
+        <TopBunStyled src={Bap_top} />
         {!ingredientAddingOrder.length && (
-          <SpanStyled>
-            Please, start by adding ... <br></br>
-          </SpanStyled>
+          <MessageStyled>
+            Please start by adding ingredients...
+          </MessageStyled>
         )}
-        {ingredientAddingOrder.map((product, idx) => {
-          const bottomOffset = 325 + idx * 9;
-          const zIndex = idx + 5;
+        <IngredientsContainer>
+          {ingredientAddingOrder.map((product, idx) => {
+            const zIndex = idx + 5;
+            const bottomOffset = (10 * idx)-100;
 
-          return (
-            <ProductIMGStyled
-              key={`${product}_${idx}`}
-              src={require(`../../../assets/products/${product}.png`)}
-              alt={product}
-              style={{
-                zIndex: zIndex,
-                bottom: bottomOffset,
-              }}
-            />
-          );
-        })}
-
-        <BottomBapStyled src={Bap_bottom}></BottomBapStyled>
-      </BurgerStyledSection>
+            return (
+              <IngredientStyled
+                key={`${product}_${idx}`}
+                src={require(`../../../assets/products/${product}.png`)}
+                alt={product}
+                style={{
+                  zIndex: zIndex,
+                  bottom: bottomOffset,
+                }}
+              />
+            );
+          })}
+        </IngredientsContainer>
+        <BottomBunStyled src={Bap_bottom} />
+      </BurgerSection>
     </BurgerStyled>
   );
 };
@@ -53,16 +53,30 @@ const BurgerStyled = styled("div")({
   padding: "15px",
   margin: "15px",
   textAlign: "center",
+  display: "flex",
+  gap: "20px",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
 });
 
-const SpanStyled = styled("span")({
-  position: "absolute",
+const BurgerSection = styled("section")({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  gap: "10px",
 });
 
-const ProductIMGStyled = styled("img")({
+const IngredientsContainer = styled("div")({
+  position: "relative",
+});
+
+const IngredientStyled = styled("img")({
   width: "200px",
   height: "auto",
   position: "absolute",
+  left: "50%",
+  transform: "translateX(-50%)",
 });
 
 const TitleStyled = styled("h3")({
@@ -70,32 +84,21 @@ const TitleStyled = styled("h3")({
 });
 
 const TopBunStyled = styled("img")({
-  top: 0,
-  zIndex: "100",
   width: 200,
-  marginBottom: "5px",
   height: 110,
+  marginBottom: "5px",
+  zIndex:1000
 });
 
-const BottomBapStyled = styled("img")({
+const BottomBunStyled = styled("img")({
   width: 200,
   height: 100,
   marginTop: "10px",
 });
 
-const BurgerStyledSection = styled("section")({
-  maxHeight: "300px",
-  alignSelf: "center",
-  flexBasis: "50%",
-  justifyContent: "center",
-  display: "flex",
-  flexDirection: "column",
-  gap: "0px",
-  alignItems: "center",
-
-  "@media screen and (max-width: 1440px)": {
-    maxHeight: "165px",
-  },
+const MessageStyled = styled("span")({
+  fontWeight: "bold",
+  marginTop:"4%"
 });
 
 export default Burger;
